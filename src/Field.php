@@ -38,6 +38,7 @@ class Field
     }
 
     /**
+     * @param string $checkbox
      * @return string
      */
     private function getLabelHtml($checkbox = null)
@@ -64,7 +65,7 @@ class Field
     }
 
     /**
-     * @param $html
+     * @param string $html
      * @return string
      */
     private function getFormGroup($html)
