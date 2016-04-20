@@ -29,4 +29,3 @@ class Form
         $this->fields[] = $field;
     }
 }
-

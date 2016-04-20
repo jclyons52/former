@@ -40,5 +40,4 @@ class Field
         }
         return "<input type='{$this->type}' name='{$this->name}'>";
     }
-
 }
