@@ -2,6 +2,8 @@
 
 namespace Jclyons52\Former;
 
+use Jclyons52\PHPQuery\Document;
+
 class FormTest extends TestCase
 {
     /**
@@ -13,7 +15,9 @@ class FormTest extends TestCase
 
         $html = $form->toHtml();
 
-        $this->assertContains("<form action='http://example.com/upload'></form>", $html);
+        $dom = new Document($html);
+
+        $this->assertEquals($dom->querySelector('form')->attr('action'), "http://example.com/upload");
     }
 
     /**
@@ -29,13 +33,17 @@ class FormTest extends TestCase
 
         $html = $form->toHtml();
 
-        $this->assertContains("<form action='http://example.com/upload'>", $html);
-        $this->assertContains( "<label for='test'>Demo Field</label>", $html);
-        $this->assertContains( "<input type='text' name='test'>", $html);
+        $dom = new Document($html);
+
+        $this->assertEquals($dom->querySelector('form')->attr('action'), "http://example.com/upload");
+        $this->assertEquals($dom->querySelector('label')->text(), "Demo Field");
+        $this->assertEquals($dom->querySelector('label')->attr('for'), "test");
+        $this->assertEquals($dom->querySelector('input')->attr('type'), "text");
+        $this->assertEquals($dom->querySelector('input')->attr('name'), "test");
     }
 
     /**
-     * 
+     *
      */
     public function it_sets_the_default_action_to_post()
     {

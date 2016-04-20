@@ -2,6 +2,8 @@
 
 namespace Jclyons52\Former;
 
+use Jclyons52\PHPQuery\Document;
+
 class FieldTest extends TestCase
 {
     /**
@@ -13,8 +15,12 @@ class FieldTest extends TestCase
 
         $html = $field->toHtml();
 
-        $this->assertContains( "<label for='test'>Demo Field</label>", $html);
-        $this->assertContains( "<input type='text' name='test'>", $html);
+        $dom = new Document($html);
+
+        $this->assertEquals($dom->querySelector('label')->text(), "Demo Field");
+        $this->assertEquals($dom->querySelector('label')->attr('for'), "test");
+        $this->assertEquals($dom->querySelector('input')->attr('type'), "text");
+        $this->assertEquals($dom->querySelector('input')->attr('name'), "test");
     }
 
     /**
@@ -26,8 +32,12 @@ class FieldTest extends TestCase
 
         $html = $field->toHtml();
 
-        $this->assertContains( "<label for='test'>Demo Field</label>", $html);
-        $this->assertContains( "<input type='checkbox' name='test'>", $html);
+        $dom = new Document($html);
+
+        $this->assertEquals($dom->querySelector('label')->text(), "Demo Field");
+        $this->assertEquals($dom->querySelector('label')->attr('for'), "test");
+        $this->assertEquals($dom->querySelector('input')->attr('type'), "checkbox");
+        $this->assertEquals($dom->querySelector('input')->attr('name'), "test");
     }
 
     /**
@@ -38,6 +48,10 @@ class FieldTest extends TestCase
         $field = new Field(["type" => "textarea", "labelText" => "Demo Field", "name" => "test" ]);
 
         $html = $field->toHtml();
-        $this->assertContains( "<textarea name='test' id='' cols='30' rows='10'></textarea>", $html);
+        $dom = new Document($html);
+
+        $this->assertEquals($dom->querySelector('textarea')->attr('name'), "test");
+        $this->assertEquals($dom->querySelector('textarea')->attr('cols'), "30");
+        $this->assertEquals($dom->querySelector('textarea')->attr('rows'), "10");
     }
 }
