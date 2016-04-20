@@ -23,7 +23,7 @@ class Form
     {
         $enctype = $this->hasFile ? "enctype='multipart/form-data'" : '';
 
-        $html = "<form action='{$this->action}' method='{$this->method}' {$enctype} >";
+        $html = "<form action='{$this->action}' method='{$this->method}' {$enctype} class='form'>";
 
         if (strtoupper($this->method) !== "POST") {
             $this->spoofHttpMethod($this->method);
@@ -33,7 +33,7 @@ class Form
             $html .= $field->toHtml();
         }
 
-        $html .= "</form>";
+        $html .= "<button type='submit' class='btn btn-default'>Submit</button></form>";
         
         return $html;
     }

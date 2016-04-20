@@ -34,10 +34,11 @@ class FieldTest extends TestCase
 
         $dom = new Document($html);
 
-        $this->assertEquals($dom->querySelector('label')->text(), "Demo Field");
-        $this->assertEquals($dom->querySelector('label')->attr('for'), "test");
+        $this->assertEquals($dom->querySelector('input')->parent()->text(), "Demo Field");
+        $this->assertEquals($dom->querySelector('input')->parent()->attr('for'), "test");
         $this->assertEquals($dom->querySelector('input')->attr('type'), "checkbox");
         $this->assertEquals($dom->querySelector('input')->attr('name'), "test");
+
     }
 
     /**
@@ -53,5 +54,18 @@ class FieldTest extends TestCase
         $this->assertEquals($dom->querySelector('textarea')->attr('name'), "test");
         $this->assertEquals($dom->querySelector('textarea')->attr('cols'), "30");
         $this->assertEquals($dom->querySelector('textarea')->attr('rows'), "10");
+    }
+
+    /**
+     * @test
+     */
+    public function it_gives_fields_bootstrap_classes_by_default()
+    {
+        $field = new Field(["type" => "textarea", "labelText" => "Demo Field", "name" => "test" ]);
+
+        $html = $field->toHtml();
+        $dom = new Document($html);
+
+        $this->assertEquals($dom->querySelector('textarea')->parent()->attr('class'), "form-group");
     }
 }

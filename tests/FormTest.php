@@ -18,6 +18,7 @@ class FormTest extends TestCase
         $dom = new Document($html);
 
         $this->assertEquals($dom->querySelector('form')->attr('action'), "http://example.com/upload");
+        $this->assertEquals($dom->querySelector('button')->attr('type'), "submit");
     }
 
     /**
@@ -85,9 +86,21 @@ class FormTest extends TestCase
 
         $dom = new Document($html);
 
-        var_dump($dom->toString());
-
         $this->assertEquals($dom->querySelector('input[type="hidden"]')->attr('value'), "PUT");
         $this->assertEquals($dom->querySelector('input[type="hidden"]')->attr('name'), "_method");
+    }
+
+    /**
+     * @test
+     */
+    public function it_gives_the_form_bootstrap_class_by_default()
+    {
+        $form = new Form(["action" => "http://example.com/upload"]);
+
+        $html = $form->toHtml();
+
+        $dom = new Document($html);
+
+        $this->assertTrue($dom->querySelector('form')->hasClass('form'));
     }
 }

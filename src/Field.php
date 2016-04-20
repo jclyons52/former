@@ -12,17 +12,17 @@ class Field
     
     private $attributes;
 
-    public function __construct($attributes)
+    public function __construct($attributes, $bootstrap = true)
     {
         $this->type = $attributes['type'];
 
         if (array_key_exists("labelText", $attributes)) {
             $this->labelText = $attributes['labelText'];
         }
-
         $this->name = $attributes['name'];
 
         unset($attributes['name']);
+        
         unset($attributes['labelText']);
 
         $this->attributes = $attributes;
@@ -30,11 +30,9 @@ class Field
 
     public function toHtml()
     {
-        $html = "";
-        if ($this->labelText && $this->name) {
-            $html .= $this->getLabelHtml();
-        }
-        $html .= $this->getFieldHtml();
+        $html = $this->getFormGroup("<div class=\"form-group\">");
+
+        $html .= "</div>";
 
         return $html;
     }
@@ -42,9 +40,9 @@ class Field
     /**
      * @return string
      */
-    private function getLabelHtml()
+    private function getLabelHtml($checkbox = null)
     {
-        return "<label for='{$this->name}'>{$this->labelText}</label>";
+        return "<label for='{$this->name}'>{$checkbox}{$this->labelText}</label>";
     }
 
     /**
@@ -63,5 +61,22 @@ class Field
         }
 
         return  "<input $attr >";
+    }
+
+    /**
+     * @param $html
+     * @return string
+     */
+    private function getFormGroup($html)
+    {
+        if ($this->type === "checkbox") {
+            $html .= $this->getLabelHtml($this->getFieldHtml());
+        }
+        if ($this->labelText && $this->name) {
+            $html .= $this->getLabelHtml();
+        }
+        $html .= $this->getFieldHtml();
+
+        return $html;
     }
 }
